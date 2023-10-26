@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozarko PI-20-02</title>
+</head>
+<body>
+    <h1>Перевірка таблиці множення</h1>
+
+    <p id="score">Загальний рахунок: 0</p>
+    <button id="nextTask">Наступне завдання</button>
+    <p id="task">Завдання: 2 x 3</p>
+    <input type="text" id="answer" placeholder="Введіть відповідь">
+    <button id="check">Перевірити</button>
+    <p id="result"></p>
+
+    <script>
+        const scoreDisplay = document.getElementById("score");
+        const nextTaskButton = document.getElementById("nextTask");
+        const taskDisplay = document.getElementById("task");
+        const answerInput = document.getElementById("answer");
+        const checkButton = document.getElementById("check");
+        const resultDisplay = document.getElementById("result");
+        let score = 0;
+        let correctAnswer;
+        function generateRandomTask() {
+            const operand1 = Math.floor(Math.random() * 10) + 1;
+            const operand2 = Math.floor(Math.random() * 10) + 1;
+            correctAnswer = operand1 * operand2;
+            taskDisplay.textContent = `Завдання: ${operand1} x ${operand2}`;
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(answerInput.value);
+            if (userAnswer === correctAnswer) {
+                score++;
+                resultDisplay.textContent = "Правильно!";
+            } else {
+                resultDisplay.textContent = "Неправильно. Правильна відповідь: " + correctAnswer;
+            }
+            scoreDisplay.textContent = `Загальний рахунок: ${score}`;
+        }
+
+        nextTaskButton.addEventListener('click', () => {
+            generateRandomTask();
+            resultDisplay.textContent = "";
+            answerInput.value = "";
+        });
+
+        checkButton.addEventListener('click', checkAnswer);
+
+        generateRandomTask();    
+    </script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozarko PI-20-02</title>
+    <style>
+        #rotator {
+            text-align: center;
+        }
+        #image {
+            max-width: 100%;
+            max-height: 400px;
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="rotator">
+        <p id="imageInfoNumber"></p>
+        <div id="image"></div>
+        <p id="imageInfoTitle"></p>
+        <p id="imageInfoDescription"></p>
+        <button id="prevButton">Назад</button>
+        <button id="nextButton">Вперед</button>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const imagesArray = [
+            {
+                path: '../img/1.jpg',
+                title: 'принтер 1',
+                description: 'супер модель'
+            },
+            {
+                path: '../img/2.jpg',
+                title: 'принтер 2',
+                description: 'середній клас'
+            },
+            {
+                path: '../img/3.jpg',
+                title: 'принтер 3',
+                description: 'Люксовий'
+            }
+        ];
+
+        function initPhotoRotator(containerId, images) {
+            const container = document.getElementById(containerId);
+            const imageElement = document.getElementById('image');
+            const imageInfoNumberElement = document.getElementById('imageInfoNumber');
+            const imageInfoTitleElement = document.getElementById('imageInfoTitle');
+            const imageInfoDescriptionElement = document.getElementById('imageInfoDescription');
+            const prevButton = document.getElementById('prevButton');
+            const nextButton = document.getElementById('nextButton');
+
+            prevButton.addEventListener('click', showPreviousImage);
+            nextButton.addEventListener('click', showNextImage);
+
+            function showImage(index) {
+                const image = images[index];
+                imageElement.innerHTML = `<img src="${image.path}" alt="Image ${index + 1}">`;
+                imageInfoNumberElement.textContent = `Зображення ${index + 1} з ${images.length}`;
+                imageInfoTitleElement.textContent = image.title;
+                imageInfoDescriptionElement.textContent = image.description;
+                currentImageIndex = index;
+                updateButtonsVisibility();
+            }
+
+            function showNextImage() {
+                if (currentImageIndex < images.length - 1) {
+                    showImage(currentImageIndex + 1);
+                }
+            }
+
+            function showPreviousImage() {
+                if (currentImageIndex > 0) {
+                    showImage(currentImageIndex - 1);
+                }
+            }
+
+            function updateButtonsVisibility() {
+                prevButton.disabled = currentImageIndex === 0;
+                nextButton.disabled = currentImageIndex === images.length - 1;
+            }
+
+            showImage(currentImageIndex);
+        }
+
+        initPhotoRotator('rotator', imagesArray);
+    </script>
+</body>
+</html>
